@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Последние посещения</title>
+</head>
+<ul>
+PRIVET
+<ul>
+{% for visit in visits %}
+<li>{{ visit.id }} {{ visit.created_at }}</li>
+{% endfor %}
+</ul>
+</body>
+</html>
