@@ -47,7 +47,7 @@ class Meal(db.Model):
     __tablename__ = 'meals'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.String(100), unique=True)
     price = db.Column(db.Float(5, 2))
     description = db.Column(db.String())
     picture = db.Column(db.String())
@@ -59,21 +59,35 @@ class Category(db.Model):
     __tablename__ = 'categories'
 
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(100))
+    title = db.Column(db.String(100), unique=True)
     meals = db.relationship('Meal', secondary=meals_in_category, lazy='subquery', back_populates='categories')
 
 db.create_all()
 
-with open('data.json', 'r') as file:
-    json_file = json.loads(file.read())
 
-for item in json_file:
-    print(item, item['title'])
-    meal = Meal(title=item['title'],
-                price=item['price'],
-                description=item['description'],
-                picture=item['picture'],)
-    meal.categories = item['category']
-    db.session.add(meal)
-db.session.commit()
-                #categories=item['category'])
+# for cat in ['sushi', 'pizza' ,'pasta' , 'streetfood', 'new' ,'salads']:
+#     category = Category(title=cat)
+#     db.session.add(category)
+#
+# db.session.commit()
+#
+# with open('data.json', 'r') as file:
+#     json_file = json.loads(file.read())
+#
+#
+#
+# for item in json_file:
+#     #print(item, item['title'])
+#     meal = Meal(title=item['title'],
+#                 price=item['price'],
+#                 description=item['description'],
+#                 picture=item['picture'])
+#     db.session.add(meal)
+#     for cat in item['category'].split():
+#         category = db.session.query(Category).filter(Category.title==cat).first()
+#         meal.categories.append(category)
+#
+# db.session.commit()
+
+for meal in db.session.query(Meal).all():
+    print(meal.title, meal.categories)
