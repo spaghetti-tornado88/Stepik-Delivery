@@ -1,0 +1,20 @@
+[
+  {
+    "name": "Roman G\n",
+    "email": "romano@gmail.com",
+    "password": "imnotroman",
+    "adress": "5214127, Homestead 23 st"
+  },
+  {
+    "name": "Alex F",
+    "email": "alexxx@gmail.com\n",
+    "password": "pressf@gmail.com",
+    "adress": "11452, DA Irvine, 256 st"
+  },
+  {
+    "name": "Jane R",
+    "email": "janny@gmail.com",
+    "password": "demon_slayer@xxx.com\n",
+    "adress": "766641, DC Columbia st 1732"
+  }
+]

@@ -1,15 +1,10 @@
-from flask import Flask
+
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-import json
 from datetime import datetime
-app = Flask(__name__)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///test.db"
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = 'you-shall-not-pass'
 
-db = SQLAlchemy(app)
+db = SQLAlchemy()
 
 meals_in_order = db.Table('meals_in_order',
                           db.Column('order_id', db.Integer, db.ForeignKey('orders.id'), primary_key=True),
@@ -76,8 +71,6 @@ class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=True, nullable=False)
     meals = db.relationship('Meal', secondary=meals_in_category, lazy='subquery', back_populates='categories')
-
-db.create_all()
 
 
 # for cat in ['sushi', 'pizza' ,'pasta' , 'streetfood', 'new' ,'salads']:

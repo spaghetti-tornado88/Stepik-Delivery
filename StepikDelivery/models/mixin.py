@@ -1,4 +1,4 @@
-from app import db
+from StepikDelivery import db
 
 class BaseMixin:
 
