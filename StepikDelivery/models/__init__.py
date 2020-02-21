@@ -7,4 +7,4 @@ from StepikDelivery import db
 
 #db.create_all()
 
- __all__ = ["User", "Category", "Meal", "Order"]
+__all__ = ["User", "Category", "Meal", "Order"]
