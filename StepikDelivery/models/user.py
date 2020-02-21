@@ -7,7 +7,6 @@ from StepikDelivery.models.mixin import BaseMixin
 class User(db.Model, BaseMixin):
     __tablename__ = 'users'
 
-    id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)

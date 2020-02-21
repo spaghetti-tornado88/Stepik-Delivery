@@ -6,7 +6,6 @@ from StepikDelivery.models.relations import meals_in_order, meals_in_category
 class Meal(db.Model, BaseMixin):
     __tablename__ = 'meals'
 
-    id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), unique=True)
     price = db.Column(db.Float(5, 2), nullable=False)
     description = db.Column(db.String(), nullable=False)
