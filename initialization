@@ -1,0 +1,45 @@
+    for cat in ['sushi', 'pizza' ,'pasta' , 'streetfood', 'new' ,'salads']:
+        category = Category(title=cat)
+        db.session.add(category)
+
+    db.session.commit()
+
+    with open('StepikDelivery/static/data.json', 'r') as file:
+        json_file = json.loads(file.read())
+
+
+
+    for item in json_file:
+        #print(item, item['title'])
+        meal = Meal(title=item['title'],
+                    price=item['price'],
+                    description=item['description'],
+                    picture=item['picture'])
+        db.session.add(meal)
+        for cat in item['category'].split():
+            category = db.session.query(Category).filter(Category.title==cat).first()
+            meal.categories.append(category)
+
+    db.session.commit()
+
+    # for meal in db.session.query(Meal).all():
+    #     print(meal.title, meal.categories)
+
+    with open('StepikDelivery/static/users.json', 'r') as file:
+        json_file = json.loads(file.read())
+
+    for user in json_file:
+        print(user)
+        user = User(name=user['name'], email=user['email'], password=user['password'], adress=user['adress'])
+        db.session.add(user)
+
+    db.session.commit()
+
+    order = Order()
+    usr = db.session.query(User).filter(User.id == 2).one()
+    order.user = usr
+    ml = db.session.query(Meal).get(1)
+    order.summary = ml.price
+    order.meals.append(ml)
+    db.session.add(order)
+    db.session.commit()
