@@ -1,70 +1,96 @@
 {% extends 'base.html' %}
 {% block container %}
 
-  <main class="container">
+<main class="container">
     <h1 class="h3 my-4">Корзина</h1>
     <div class="alert alert-warning" role="alert">Блюдо удалено из корзины</div>
     <div class="row mt-5">
-      <div class="col-4">
-        <h4 class="">Ваши данные</h4>
-        <div class=" md-4 order-md-1">
-          <div class="mt-3 mb-3">
-            <label for="name">Ваше имя</label>
-            <input type="text" class="font-weight-bold form-control" id="name">
-          </div>
+        {% if not is_logged %}
+        <div class="col-4">
+            <h4 class="">Ваши данные</h4>
+            <form action="" method="POST" novalidate>
+                {{ form.csrf_token }}
+                <div class=" md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.name.label }}
+                        {{ form.name(class="font-weight-bold form-control") }}
+                        {% if form.name.errors %}
+                        <p style="color: red;">{{ form.name.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class=" md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.adress.label }}
+                        {{ form.adress(class="font-weight-bold form-control") }}
+                        {% if form.adress.errors %}
+                        <p style="color: red;">{{ form.adress.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.email.label }}
+                        {{ form.email(class="font-weight-bold form-control") }}
+                        {% if form.email.errors %}
+                        <p style="color: red;">{{ form.email.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class=" md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.phone.label }}
+                        {{ form.phone(class="font-weight-bold form-control") }}
+                        {% if form.phone.errors %}
+                        <p style="color: red;">{{ form.phone.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class=" md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.password.label }}
+                        {{ form.password(class="font-weight-bold form-control") }}
+                        {% if form.password.errors %}
+                        <p style="color: red;">{{ form.password.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class=" md-4 order-md-1">
+                    <div class="mt-3 mb-3">
+                        {{ form.password_confirm.label }}
+                        {{ form.password_confirm(class="font-weight-bold form-control") }}
+                        {% if form.password_confirm.errors %}
+                        <p style="color: red;">{{ form.password_confirm.errors[0] }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                {{ form.submit(class="mt-3 mb-5 btn btn-danger") }}
+            </form>
         </div>
-        <div class=" md-4 order-md-1">
-          <div class="mt-3 mb-3">
-            <label for="name">Адрес</label>
-            <input type="text" class="font-weight-bold form-control" id="name">
-          </div>
+        {% else %}
+        <div>Вы вошли</div>
+        {% endif %}
+        <div class="col-1"></div>
+        <div class="col-7">
+            <h4 class="mb-3 col-7">Позиций в корзине: {{ cart_items|length }}</h4>
+            <table class="table">
+                <tbody>
+                {% for item in cart_items %}
+                <tr>
+                    <th scope="row">{{ item.title }}</th>
+                    <td></td>
+                    <td>1</td>
+                    <td>{{ item.price|round(2) }} ₽</td>
+                    <td><a class="text-danger" href="/del_from_cart/{{ item.id }}">Удалить</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <hr>
+            <p class="display-4 mx-2 ">{{ summary|round(2) }} ₽</p>
         </div>
-        <div class="md-4 form-label-group">
-          <label for="name">Электропочта</label>
-          <input type="email" id="inputEmail" class="form-control" required autofocus>
-          <label for="inputEmail"></label>
-        </div>
-        <div class=" md-4 order-md-1">
-          <div class="mt-3 mb-3">
-            <label for="name">Телефон</label>
-            <input type="text" class="font-weight-bold form-control" id="name">
-          </div>
-        </div>
-        <button type="submit" class=" mt-3 mb-5 btn btn-danger">Оформить заказ</button>
-      </div>
-      <div class="col-1"></div>
-      <div class="col-7">
-        <h4 class="mb-3 col-7 mb-5">3 блюда в корзине</h4>
-        <table class="table">
-          <tbody>
-            <tr>
-              <th scope="row">Ролл "Хомский"</th>
-              <td></td>
-              <td>1</td>
-              <td>315</td>
-              <td><a class="text-danger" href="#">Удалить</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Бургер 404</th>
-              <td></td>
-              <td>1</td>
-              <td>250</td>
-              <td><a class="text-danger" href="#">Удалить</a></td>
-            </tr>
-            <tr>
-              <th scope="row">Пица "Армин"</th>
-              <td></td>
-              <td>1</td>
-              <td>310</td>
-              <td><a class="text-danger" href="#">Удалить</a></td>
-            </tr>
-          </tbody>
-        </table>
-        <hr>
-        <p class="display-4 my-2 ">875 руб</p>
-      </div>
     </div>
-  </main>
+</main>
 
 
 {% endblock %}

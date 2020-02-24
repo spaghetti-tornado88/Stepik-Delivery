@@ -22,8 +22,8 @@
                 <img src=/static/image/{{ meal.picture }} width="300" height="200" class="card-img-top" alt="">
                 <div class="card-body">
                     <h4 class="h5 card-title">{{ meal.title }}</h4>
-                    <p class="card-text">{{ meal.description }}</p>
-                    <button type="button" class="btn btn-danger">В корзину</button>
+                    <p class="card-text">{{ meal.description|truncate(60) }}</p>
+                    <a href='/add_to_cart/{{ meal.id }}' type="button" class="btn btn-danger">В корзину</a>
                 </div>
             </div>
         </div>
