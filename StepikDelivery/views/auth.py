@@ -12,7 +12,8 @@ def login_page():
     if request.method=='POST' and login.validate_on_submit():
         user = User.query.filter(User.email==login.email.data).one()
         if user.check_password(login.password.data):
-            session['user'] = [user.id, user.email]
+            session['user'] = [user.id, user.email, user.name]
+            session['cart'] = []
             orders = Order.query.filter(Order.user == user).all()
             return render_template('account.html', cart=session.get('cart', []), is_logged=session.get('user', []), orders=orders)
         else:
@@ -23,5 +24,6 @@ def login_page():
 @app.route('/logout')
 def logout_page():
     session['user'] = []
+    session['cart'] = []
     return redirect(url_for('main_page'))
 
