@@ -32,8 +32,7 @@ def cart_page():
     register = RegisterForm()
     user_in_db = User.query.filter(User.email == register.email.data).all()
 
-    if request.method == 'POST' and not user_in_db and len(session.get('cart'), []) and register.validate_on_submit():
-        # TODO: Raise an error when user already registered
+    if request.method == 'POST' and not user_in_db and session.get('cart', []) and register.validate_on_submit():
         new_user = User(name=register.name.data, adress=register.adress.data,
                         email=register.email.data, password=register.password.data, role=1)
         db.session.add(new_user)
@@ -47,6 +46,10 @@ def cart_page():
         session['cart'] = []
         return redirect(url_for('order_accepted_page'))
 
+    if not session.get('cart'):
+        flash('Корзина пуста')
+    if user_in_db:
+        flash('Пользователь с данной почтой уже зарегистрирован')
     return render_template('cart.html', cart=session.get('cart', []), is_logged=session.get('user', []),
                            cart_items=cart_items, summary=summary, form=register)
 

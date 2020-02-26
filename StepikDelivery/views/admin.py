@@ -4,7 +4,6 @@ from StepikDelivery import app
 
 @app.before_request
 def admin_access_control():
-    print('hello there', request.url)
     if 'admin' in request.url:
         user = session.get('user')
         if not user or user[3] < 100:
