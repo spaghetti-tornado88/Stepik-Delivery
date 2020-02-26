@@ -11,6 +11,7 @@ class User(db.Model, BaseMixin):
     email = db.Column(db.String(100), nullable=False)
     password_hash = db.Column(db.String(128), nullable=False)
     adress = db.Column(db.String, nullable=False)
+    role = db.Column(db.Integer)
     orders = db.relationship('Order', back_populates='user')
 
     @property

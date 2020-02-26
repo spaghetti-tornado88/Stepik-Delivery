@@ -21,7 +21,7 @@ def cart_page():
         make_order = RegisterForm()
         if make_order.is_submitted() and session['cart']:
             logged_user = User.query.get(session['user'][0])
-            new_order = Order(summary=summary, user=logged_user)
+            new_order = Order(summary=summary, user=logged_user, status=1)
             for meal_id in session['cart']:
                 new_order.meals.append(Meal.query.get(meal_id))
             db.session.add(new_order)
@@ -30,15 +30,15 @@ def cart_page():
             return redirect(url_for('order_accepted_page'))
 
     register = RegisterForm()
-    user_in_db = User.query.filter(User.email==register.email.data).all()
+    user_in_db = User.query.filter(User.email == register.email.data).all()
 
-    if request.method == 'POST' and not user_in_db and register.validate_on_submit():
+    if request.method == 'POST' and not user_in_db and len(session.get('cart'), []) and register.validate_on_submit():
         # TODO: Raise an error when user already registered
         new_user = User(name=register.name.data, adress=register.adress.data,
-                        email=register.email.data, password=register.password.data)
+                        email=register.email.data, password=register.password.data, role=1)
         db.session.add(new_user)
         db.session.commit()
-        new_order = Order(summary=summary, user=new_user)
+        new_order = Order(summary=summary, user=new_user, status=1)
         db.session.add(new_order)
 
         for meal_id in session['cart']:
@@ -57,6 +57,7 @@ def add_to_cart_page(product_id):
     if product_id not in cart:
         cart.append(product_id)
     session['cart'] = cart
+    flash('Блюдо добавленно в корзину')
     return redirect(url_for('cart_page'))
 
 
@@ -65,6 +66,7 @@ def del_from_cart_page(product_id):
     cart = session.get('cart')
     cart.remove(product_id)
     session['cart'] = cart
+    flash('Блюдо удалено из корзины')
     return redirect(url_for('cart_page'))
 
 
